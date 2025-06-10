@@ -1,46 +1,32 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  Alert,
-  Image,
-  Button
-} from "react-native";
-import Car from "./components/Car";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StyleSheet, View } from "react-native";
+import LoginScreen from "./screens/LoginScreen";
+import SignUpScreen from "./screens/SignUpScreen";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const localImage = require("./assets/react.png");
-  const onPressLearnMore = () => {
-    console.log("onPressLearnMore  ..........");
-  };
   return (
-    <View style={styles.container}>
-      <Car />
-      <Text
-        onPress={() => {
-          Alert.alert("Text Pressed.");
-        }}
-        style={{ color: "blue" }}
-      >
-        <Text style={{ color: "green" }}>Open up App.js</Text> to start working
-        on your app!
-      </Text>
-      <Text>Open up App.js to start working on your app!</Text>
-
-      <Button
-        style={{
-          ...styles.btn_style
-        }}
-        onPress={onPressLearnMore}
-        title="Learn More"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen options={{
+          headerTransparent: true,
+         headerBlurEffect: 'extraLight',
+          headerTitleStyle: {
+            color: 'white',
+            fontSize: 24
+          }
+        }} name="Login" component={LoginScreen} />
+        <Stack.Screen name="Signup" component={SignUpScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
+
+// each component as part of navigation , the component is receving navigation props
+// also you will get header with back button
 
 const styles = StyleSheet.create({
   container: {

@@ -11,17 +11,33 @@ import {
 } from 'react-native'
 import TextInputComponent from './TextInputComponent'
 import loginScreenStyles from '../styles/loginScreenStyles'
+import { getApiClient } from '../utils/axiosClient'
+import { apiEndpoints } from '../constants/appContants'
+import { authenticateUser } from '../services/authService'
 
-const LoginScreen = ({ setActiveScreen }) => {
+const LoginScreen = ({ navigation, setActiveScreen }) => {
+  console.log('navigation from Login')
+
   const [userLoginCredential, setUserLoginCredential] = useState({
-    email: '',
-    password: ''
+    username: 'emilys',
+    password: 'emilyspass'
   })
 
-  const handleLogin = () => {
-    console.log('====================================')
-    console.log(userLoginCredential)
-    console.log('====================================')
+  const handleLogin = async () => {
+    try {
+      const result = await authenticateUser(userLoginCredential)
+      if (result && result.accessToken) {
+        // cache the access token, reffresh token , also expiry time
+        // set the profile in the state
+        // navigate to home or any authenticated route
+        setActiveScreen('signup')
+      }
+      //   result.accessToken
+
+      console.log('RESULT IN COMPONENT...')
+    } catch (error) {
+      console.log('ERROR in Authentication...', error.message)
+    }
   }
   return (
     <View style={{ flex: 1 }}>
@@ -39,17 +55,19 @@ const LoginScreen = ({ setActiveScreen }) => {
         <View>
           <TextInputComponent
             type='email'
+            value={userLoginCredential.username}
             placeholder='Enter your email'
             onChange={text =>
               setUserLoginCredential(prevValues => ({
                 ...prevValues,
-                email: text
+                username: text
               }))
             }
           />
           <TextInputComponent
             type='password'
             placeholder='Enter your password'
+            value={userLoginCredential.password}
             onChange={text =>
               setUserLoginCredential(prevValues => ({
                 ...prevValues,
@@ -82,10 +100,13 @@ const LoginScreen = ({ setActiveScreen }) => {
           <Text>Remember Me</Text>
           <Text>Forgot Password?</Text>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'center', margin: 30 }}>
+        <View
+          style={{ flexDirection: 'row', justifyContent: 'center', margin: 30 }}
+        >
           <Pressable
             onPress={() => {
-              setActiveScreen('signup')
+              // setActiveScreen('signup')
+              navigation.navigate('Signup')
             }}
           >
             <Text>Alreay have an account?</Text>

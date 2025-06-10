@@ -12,7 +12,9 @@ import {
 import TextInputComponent from './TextInputComponent'
 import loginScreenStyles from '../styles/loginScreenStyles'
 
-const SignUpScreen = ({ setActiveScreen }) => {
+const SignUpScreen = ({ navigation, setActiveScreen }) => {
+  console.log("navigation from signup");
+  
   const [userLoginCredential, setUserLoginCredential] = useState({
     email: '',
     password: ''
@@ -91,10 +93,12 @@ const SignUpScreen = ({ setActiveScreen }) => {
         <View style={{ flexDirection: 'row', justifyContent: 'center', margin: 30 }}>
           <Pressable
             onPress={() => {
-              setActiveScreen('login')
+              // setActiveScreen('login')
+              navigation.navigate('Login')
+              
             }}
           >
-            <Text>Login</Text>
+            <Text>Already have an account, Login</Text>
           </Pressable>
         </View>
       </View>
