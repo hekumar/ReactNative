@@ -11,14 +11,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen options={{
-          headerTransparent: true,
-         headerBlurEffect: 'extraLight',
-          headerTitleStyle: {
-            color: 'white',
-            fontSize: 24
-          }
-        }} name="Login" component={LoginScreen} />
+        <Stack.Screen
+          options={{
+            headerTransparent: true,
+            headerBlurEffect: "extraLight",
+            headerTitleStyle: {
+              color: "white",
+              fontSize: 24
+            }
+          }}
+          name="Login"
+          component={LoginScreen}
+        />
         <Stack.Screen name="Signup" component={SignUpScreen} />
       </Stack.Navigator>
     </NavigationContainer>

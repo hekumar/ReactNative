@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator()
 const BottomTabs = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator >
         <Tab.Screen
           options={{
             headerTransparent: true,

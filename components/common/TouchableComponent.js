@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -10,8 +10,15 @@ import {
   Image,
   Pressable
 } from "react-native";
+import { AuthContext } from "../../contexts/authContext";
 
 const TouchableComponent = ({ pageChangeHandler }) => {
+
+  
+  const { setAuth } = useContext(AuthContext);
+
+
+
   return (
     <View style={styles.container}>
       <Text>Touchable Component Demo </Text>
@@ -58,7 +65,12 @@ const TouchableComponent = ({ pageChangeHandler }) => {
       <TouchableOpacity
         onPress={() => {
           console.log("====================================");
-          console.log("Tapped touch");
+          console.log("Tapped touch - Setting Auth");
+          setAuth(auth => ({
+            ...auth,
+            isAuthenticated: true,
+            user: { name: 'Hemant' }
+          }));
           console.log("====================================");
         }}
         onLongPress={() => {

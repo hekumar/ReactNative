@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   View
 } from 'react-native'
-import TextInputComponent from './TextInputComponent'
+import TextInputComponent from '../components/common/TextInputComponent'
 import loginScreenStyles from '../styles/loginScreenStyles'
 
 const SignUpScreen = ({ navigation, setActiveScreen }) => {

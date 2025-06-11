@@ -7,7 +7,6 @@ const FlatListDemo = () => {
     <View>
       <FlatList
         data={products}
-        re
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           return (

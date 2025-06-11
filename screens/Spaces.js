@@ -6,8 +6,6 @@ import {
   StatusBar,
   Dimensions
 } from "react-native";
-import TextInputComponent from "./TextInputComponent";
-import TouchableComponent from "../components/common/TouchableComponent";
 import LoginScreen from "./LoginScreen";
 import SignUpScreen from "./SignUpScreen";
 

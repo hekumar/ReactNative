@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   Button,
   Image,
@@ -9,14 +9,15 @@ import {
   TouchableHighlight,
   View
 } from 'react-native'
-import TextInputComponent from './TextInputComponent'
+import TextInputComponent from '../components/common/TextInputComponent'
 import loginScreenStyles from '../styles/loginScreenStyles'
-import { getApiClient } from '../utils/axiosClient'
-import { apiEndpoints } from '../constants/appContants'
 import { authenticateUser } from '../services/authService'
+import { AuthContext } from '../contexts/authContext'
 
 const LoginScreen = ({ navigation, setActiveScreen }) => {
   console.log('navigation from Login')
+
+  const { setAuth } = useContext(AuthContext)
 
   const [userLoginCredential, setUserLoginCredential] = useState({
     username: 'emilys',
@@ -30,7 +31,14 @@ const LoginScreen = ({ navigation, setActiveScreen }) => {
         // cache the access token, reffresh token , also expiry time
         // set the profile in the state
         // navigate to home or any authenticated route
-        setActiveScreen('signup')
+        const { accessToken, refreshToken, ...user } = result
+        setAuth({
+          isAuthenticated: Boolean(result.accessToken),
+          user,
+          accessToken,
+          refreshToken
+        })
+        navigation.navigate('Authenticated')
       }
       //   result.accessToken
 
