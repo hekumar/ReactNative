@@ -1,13 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { AuthContext } from '../contexts/authContext'
 import ProductList from '../components/ProductList'
+import { getProductList } from '../services/productService'
 
 const LandingPage = () => {
   const { auth } = useContext(AuthContext)
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const _fetchProductData = async () => {
+      const { products } = await getProductList()
+      setData(products)
+    }
+
+    _fetchProductData()
+  }, [])
   return (
     <View style={styles.container}>
-      <ProductList></ProductList>
+      <ProductList data={data}></ProductList>
     </View>
   )
 }

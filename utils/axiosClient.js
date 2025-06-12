@@ -1,13 +1,36 @@
 import axios from "axios";
-import { API_BASE_URL, API_TIMEOUT } from "../constants/appContants";
+import {
+  API_TIMEOUT,
+  AUTH_API_BASE_URL,
+  PRODUCT_API_BASE_URL,
+  Service,
+  ServiceApis
+} from "../constants/appContants";
 
 export const getToken = () => {
   return "Dummy_Token";
 };
 
-export const getApiClient = ({ auth } = { auth: true }) => {
+export const getBaseURLByService = service => {
+  switch (service) {
+    case Service.AUTH:
+      return AUTH_API_BASE_URL;
+      break;
+    case Service.PRODUCT:
+      return PRODUCT_API_BASE_URL;
+      break;
+
+    default:
+      throw new Error("No matching Service Found.");
+  }
+};
+
+export const getApiClient = (
+  { auth, service } = { auth: true, sericeApi: Service.AUTH }
+) => {
+  const baseURL = getBaseURLByService(service);
   const client = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL,
     timeout: API_TIMEOUT,
     headers: {
       "Content-Type": "application/json"

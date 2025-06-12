@@ -4,7 +4,6 @@ import { products } from "../data";
 import App from "../App";
 import AuthProvider from "../contexts/authContext";
 import ProfileComponent from "./ProfileComponent";
-import TouchableComponent from "../components/common/TouchableComponent";
 
 const DATA = [
   {
@@ -59,7 +58,6 @@ const SectionListDemo = () => {
             return <Text>===============</Text>;
           }}
         />
-        <TouchableComponent/>
       </View>
     </AuthProvider>
   );

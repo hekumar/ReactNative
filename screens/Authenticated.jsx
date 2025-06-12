@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -6,10 +6,16 @@ import LandingPage from './LandingPage'
 import Dashboard from './Dashboard'
 import Account from './Account'
 import Cart from './Cart'
+import CartProvider, { useCart } from "../contexts/cartContext";
 
 const Tab = createBottomTabNavigator()
 
 const Authenticated = () => {
+
+
+  const { shoppingCart } = useCart();
+
+
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -56,6 +62,7 @@ const Authenticated = () => {
         component={Cart}
         options={{
           tabBarLabel: 'Cart',
+          tabBarBadge: shoppingCart.length,
           tabBarLabelStyle: { fontWeight: 'bold', fontSize: 15 },
           tabBarIcon: () => (
             <View>
