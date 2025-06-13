@@ -7,10 +7,11 @@ import Dashboard from './Dashboard'
 import Account from './Account'
 import Cart from './Cart'
 import CartProvider, { useCart } from "../contexts/cartContext";
+import Home from './Home'
 
 const Tab = createBottomTabNavigator()
 
-const Authenticated = () => {
+const Authenticated = ({ navigation: authNavigation }) => {
 
 
   const { shoppingCart } = useCart();
@@ -23,6 +24,7 @@ const Authenticated = () => {
           headerTransparent: true,
           headerBlurEffect: 'extraLight',
           tabBarLabel: 'Home',
+          headerShown: false,
           tabBarLabelStyle: { fontWeight: 'bold', fontSize: 15 },
           tabBarIcon: () => (
             <View>
@@ -30,13 +32,14 @@ const Authenticated = () => {
             </View>
           )
         }}
-        name='LandingPage'
-        component={LandingPage}
+        name='Home'
+        component={Home}
       />
       <Tab.Screen
         name='Account'
         component={Account}
         options={{
+          headerShown: false,
           tabBarLabel: 'Account',
           tabBarLabelStyle: { fontWeight: 'bold', fontSize: 15 },
           tabBarIcon: () => (

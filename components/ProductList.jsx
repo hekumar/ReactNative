@@ -1,11 +1,14 @@
 import React from 'react'
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Product from './Product';
+import { useNavigation } from '@react-navigation/native';
 
 const ProductList = ({ data: products }) => {
+    const navigation = useNavigation()
 
-    const handleProductPress = () => {
-        console.log('Product pressed');
+    const handleProductPress = (product) => {
+        console.log('Product pressed', navigation);
+        navigation.navigate("Details", { product })
     };
 
     const handleColorSelect = (color) => {
@@ -47,7 +50,17 @@ const ProductList = ({ data: products }) => {
                                 ]
                             }}
 
-                            onPress={handleProductPress}
+                            onPress={() => handleProductPress({
+                                id,
+                                images: [image],
+                                title,
+                                description,
+                                price,
+                                originalPrice: price,
+                                discount,
+                                tag: brand,
+                                category
+                            })}
                             onColorSelect={handleColorSelect}
                         />
                     </View>)

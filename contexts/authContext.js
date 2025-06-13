@@ -9,11 +9,18 @@ const initialAuth = {
 
 export default ({ children }) => {
   const [auth, setAuth] = useState(initialAuth);
+  const logout = () => {
+    setAuth(initialAuth);
+  };
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider value={{ auth, setAuth, logout }}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  return React.useContext(AuthContext);
 };
 
 // create a list component (ScrollView, flat) -> products -> each product is going to have add to cart and buynow, you need to show cart icon with badges

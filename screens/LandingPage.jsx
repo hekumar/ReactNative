@@ -4,7 +4,7 @@ import { AuthContext } from '../contexts/authContext'
 import ProductList from '../components/ProductList'
 import { getProductList } from '../services/productService'
 
-const LandingPage = () => {
+const LandingPage = ({ navigation: homeNavigation}) => {
   const { auth } = useContext(AuthContext)
   const [data, setData] = useState([])
 

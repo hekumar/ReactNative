@@ -13,6 +13,8 @@ import TextInputComponent from '../components/common/TextInputComponent'
 import loginScreenStyles from '../styles/loginScreenStyles'
 import { authenticateUser } from '../services/authService'
 import { AuthContext } from '../contexts/authContext'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SESSION_KEYS } from '../constants/appContants'
 
 const LoginScreen = ({ navigation, setActiveScreen }) => {
   console.log('navigation from Login')
@@ -31,7 +33,12 @@ const LoginScreen = ({ navigation, setActiveScreen }) => {
         // cache the access token, reffresh token , also expiry time
         // set the profile in the state
         // navigate to home or any authenticated route
-        const { accessToken, refreshToken, ...user } = result
+        const { accessToken, refreshToken, ...user } = result;
+        storeAuthData(SESSION_KEYS.AUTH, JSON.stringify({
+          accessToken,
+          refreshToken,
+          user
+        }));
         setAuth({
           isAuthenticated: Boolean(result.accessToken),
           user,
@@ -47,6 +54,16 @@ const LoginScreen = ({ navigation, setActiveScreen }) => {
       console.log('ERROR in Authentication...', error.message)
     }
   }
+
+  const storeAuthData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (e) {
+      console.error("error saving");
+
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={loginScreenStyles.firstContainer}></View>
