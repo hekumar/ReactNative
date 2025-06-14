@@ -8,9 +8,11 @@ import ScrollViewDemo from './demo/ScrollViewDemo';
 import FlatListDemo from './demo/FlatListDemo';
 import SectionListDemo from './demo/SectionListDemo';
 import UnAuthenticated from './screens/UnAuthenticated';
+import UseCallbackDemo from './demo/useCallbackDemo';
+import UseMemoDemo from './demo/useMemoDemo';
 
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
-registerRootComponent(UnAuthenticated);
+registerRootComponent(UseMemoDemo);

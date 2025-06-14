@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   Button,
   Image,
@@ -11,10 +11,11 @@ import {
 } from 'react-native'
 import TextInputComponent from '../components/common/TextInputComponent'
 import loginScreenStyles from '../styles/loginScreenStyles'
-import { authenticateUser } from '../services/authService'
+import { authenticateUser, getCurrentUser } from '../services/authService'
 import { AuthContext } from '../contexts/authContext'
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SESSION_KEYS } from '../constants/appContants'
+import { CONFIG, SESSION_KEYS } from '../constants/appContants'
+import { setToken } from '../utils/axiosClient'
 
 const LoginScreen = ({ navigation, setActiveScreen }) => {
   console.log('navigation from Login')
@@ -26,6 +27,33 @@ const LoginScreen = ({ navigation, setActiveScreen }) => {
     password: 'emilyspass'
   })
 
+  useEffect(() => {
+    console.log("Unauthenticated component loaded.");
+    const restoreAuthData = async () => {
+      try {
+        const resultString = await AsyncStorage.getItem(SESSION_KEYS.AUTH);
+        const parsedResult = JSON.parse(resultString);
+        if (parsedResult?.accessToken && parsedResult.user) {
+          setToken(parsedResult?.accessToken, parsedResult?.refreshToken);
+          const currentUser = await getCurrentUser();
+          console.log(currentUser);
+          
+          // access token and refresh token 
+          // api call
+
+          setAuth(parsedResult);
+          navigation.navigate("Authenticated");
+        }
+        console.log("From Async storage", parsedResult);
+
+      } catch (e) {
+        console.error("No Session or error restoring the session.", e);
+      }
+    };
+
+    restoreAuthData()
+  }, []);
+
   const handleLogin = async () => {
     try {
       const result = await authenticateUser(userLoginCredential)
@@ -34,11 +62,13 @@ const LoginScreen = ({ navigation, setActiveScreen }) => {
         // set the profile in the state
         // navigate to home or any authenticated route
         const { accessToken, refreshToken, ...user } = result;
+        setToken(accessToken, refreshToken);
         storeAuthData(SESSION_KEYS.AUTH, JSON.stringify({
           accessToken,
           refreshToken,
           user
         }));
+        
         setAuth({
           isAuthenticated: Boolean(result.accessToken),
           user,
