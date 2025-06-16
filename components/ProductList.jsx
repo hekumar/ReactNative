@@ -20,7 +20,7 @@ const ProductList = ({ data: products }) => {
             <FlatList
                 data={products}
                 keyExtractor={(item) => item.id}
-                horizontal="true"
+                // horizontal="true"
                 renderItem={({ item: { id,
                     brand,
                     image,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -12,10 +12,14 @@ import {
 import { useAuth } from '../contexts/authContext';
 import { useNavigation } from '@react-navigation/native';
 import accountStyles from '../styles/accountStyles';
+import * as ImagePicker from 'expo-image-picker';
+// import CameraDemo from '../demo/CameraDemo';
+// import ImagePickerComponent from '../components/ImagePicker';
 
 // You'll need to install react-native-vector-icons or use your preferred icon library
 // For this example, I'm using text-based icons, but you can replace with actual icons
 const AccountSettings = () => {
+    const [image, setImage] = useState(null);
     const { auth, logout } = useAuth();
     const navigation = useNavigation()
 
@@ -48,8 +52,20 @@ const AccountSettings = () => {
         );
     };
 
-    const handleEditPhoto = () => {
-        Alert.alert('Edit Photo', 'Select photo from gallery or camera');
+    const handleEditPhoto = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images', 'videos'],
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
     };
 
     const MenuButton = ({ icon, title, onPress, isLogout = false, showArrow = true }) => (
@@ -85,7 +101,7 @@ const AccountSettings = () => {
                     <View style={accountStyles.photoContainer}>
                         <Image
                             source={{
-                                uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face'
+                                uri: image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face'
                             }}
                             style={accountStyles.profilePhoto}
                         />
